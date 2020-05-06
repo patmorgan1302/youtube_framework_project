@@ -1,17 +1,51 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import App from './componants/App';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+ReactDOM.render(<App />, document.querySelector('#root'))
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+import React from 'react'; 
+import ReactDOM from 'react-dom';
+import Search from './componants/Searchbar'
+import CharacterList from './componants/character_list';
+
+class App extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+        characters: [],
+        }
+    }
+
+    componentDidMount(){
+        this.fetchedData();
+    }
+
+    fetchedData(){
+        fetch('https://www.potterapi.com/v1/characters?key=$2a$10$DGbEmapYD7p3LyvAGF3zke0SKd.xPGOBPJTDsK4pOo82wI3FdcNPC')
+        .then(res => res.json())
+        .then((data) => {
+            this.setState({
+                characters : data
+            });
+            console.log(data)
+            })
+            .catch(err => err.message('gayyo'))
+            };
+    
+        
+        render(){
+            return(
+            <ul className="bl">
+                <Search onSubmit={this.onSearchSubmit}/>
+                <CharacterList characters={this.state.characters}/>
+            </ul>)}};
+
+    
+ReactDOM.render(<App />, document.querySelector('#root'))
+
+
+
+
+
+
